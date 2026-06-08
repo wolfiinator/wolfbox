@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blades Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="dashboard-shell" aria-label="Retro console blades dashboard">
+      <section class="hero-panel" aria-labelledby="dashboard-title">
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <p class="eyebrow">Wolfbox Arcade</p>
+        <h1 id="dashboard-title">Blades Dashboard</h1>
+        <p class="hero-copy">
+          A web tribute to the glossy, swooping Xbox 360-era dashboard: slide
+          through blades, inspect cards, and pick a tile with keyboard or mouse.
+        </p>
+        <div class="status-strip" aria-label="User status">
+          <span class="gamerpic" aria-hidden="true">W</span>
+          <div>
+            <strong>Wolf Player</strong>
+            <span>Online • 12,480 G</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="blade-stage" aria-label="Dashboard blades">
+        <div class="top-bar">
+          <div class="brand-mark" aria-hidden="true">✕</div>
+          <div>
+            <span class="console-label">Xbox 360</span>
+            <p id="active-description">Games blade selected</p>
+          </div>
+          <time id="clock" datetime="">--:--</time>
+        </div>
+
+        <nav class="blade-tabs" aria-label="Blade navigation">
+          <button class="blade-tab active" data-blade="0" aria-current="page">Games</button>
+          <button class="blade-tab" data-blade="1">Media</button>
+          <button class="blade-tab" data-blade="2">Live</button>
+          <button class="blade-tab" data-blade="3">System</button>
+        </nav>
+
+        <div class="blades" id="blades">
+          <article class="blade games active" data-title="Games blade selected">
+            <header>
+              <span>01</span>
+              <h2>Games</h2>
+            </header>
+            <div class="tile-grid">
+              <button class="tile large selected">
+                <span class="tile-kicker">Play</span>
+                <strong>Launch Disc</strong>
+                <small>Start the adventure in the drive.</small>
+              </button>
+              <button class="tile">
+                <span class="tile-kicker">Library</span>
+                <strong>Arcade</strong>
+                <small>24 installed games</small>
+              </button>
+              <button class="tile">
+                <span class="tile-kicker">Score</span>
+                <strong>Achievements</strong>
+                <small>42 unlocked this month</small>
+              </button>
+            </div>
+          </article>
+
+          <article class="blade media" data-title="Media blade selected">
+            <header>
+              <span>02</span>
+              <h2>Media</h2>
+            </header>
+            <div class="tile-grid">
+              <button class="tile large">
+                <span class="tile-kicker">Now Playing</span>
+                <strong>Visual Mixer</strong>
+                <small>Ambient synthwave playlist</small>
+              </button>
+              <button class="tile">
+                <span class="tile-kicker">Photos</span>
+                <strong>Gallery</strong>
+                <small>Browse shared albums</small>
+              </button>
+              <button class="tile">
+                <span class="tile-kicker">Video</span>
+                <strong>Cinema</strong>
+                <small>HD clips and trailers</small>
+              </button>
+            </div>
+          </article>
+
+          <article class="blade live" data-title="Live blade selected">
+            <header>
+              <span>03</span>
+              <h2>Live</h2>
+            </header>
+            <div class="tile-grid">
+              <button class="tile large">
+                <span class="tile-kicker">Friends</span>
+                <strong>7 Online</strong>
+                <small>Join parties, chat, and compare scores.</small>
+              </button>
+              <button class="tile">
+                <span class="tile-kicker">Marketplace</span>
+                <strong>Featured</strong>
+                <small>Demos and themes</small>
+              </button>
+              <button class="tile">
+                <span class="tile-kicker">Messages</span>
+                <strong>Inbox</strong>
+                <small>3 unread invites</small>
+              </button>
+            </div>
+          </article>
+
+          <article class="blade system" data-title="System blade selected">
+            <header>
+              <span>04</span>
+              <h2>System</h2>
+            </header>
+            <div class="tile-grid">
+              <button class="tile large">
+                <span class="tile-kicker">Settings</span>
+                <strong>Console</strong>
+                <small>Profiles, storage, display, and network.</small>
+              </button>
+              <button class="tile">
+                <span class="tile-kicker">Theme</span>
+                <strong>Blades</strong>
+                <small>Glass green enabled</small>
+              </button>
+              <button class="tile">
+                <span class="tile-kicker">Power</span>
+                <strong>Standby</strong>
+                <small>Ready to resume</small>
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <footer class="control-hints" aria-label="Controls">
+          <span><kbd>←</kbd><kbd>→</kbd> switch blades</span>
+          <span><kbd>Tab</kbd> focus tiles</span>
+          <span><kbd>Enter</kbd> select</span>
+        </footer>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,171 +1,398 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Xbox 360 Dashboard 2.0.1888.0 Archive</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="boot-sequence" id="boot-sequence" aria-label="Xbox 360 startup intro">
-      <video id="boot-video" class="boot-video" autoplay muted playsinline preload="auto">
-        <source src="assets/xbox-360-intro.mp4" type="video/mp4" />
-      </video>
-      <div class="boot-fallback" aria-hidden="true">
-        <div class="boot-greenwash"></div>
-        <div class="boot-ring"></div>
-        <div class="boot-sphere"><span></span></div>
-        <p>XBOX 360</p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xbox 360 Dashboard — Archive (v2.0.1888.0)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════ BOOT SEQUENCE ═══════════════ -->
+  <div class="boot-screen" id="boot-screen">
+    <div class="boot-bg"></div>
+    <div class="boot-logo-wrap">
+      <div class="boot-sphere">
+        <div class="boot-sphere-inner"></div>
+        <div class="boot-x-lines">
+          <div class="xline xline-1"></div>
+          <div class="xline xline-2"></div>
+        </div>
       </div>
-      <button class="skip-boot" id="skip-boot" type="button">Skip Intro</button>
+      <div class="boot-wordmark">XBOX 360</div>
+    </div>
+    <div class="boot-glow"></div>
+    <button class="skip-btn" id="skip-btn" type="button">Skip &rsaquo;</button>
+  </div>
+
+  <!-- ═══════════════ PROFILE MODAL ═══════════════ -->
+  <div class="modal-overlay" id="profile-modal" style="display:none;">
+    <div class="modal-blade">
+      <div class="modal-header">
+        <div class="modal-title">Sign In</div>
+        <button class="modal-close" id="modal-close" type="button">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- dynamic content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ MESSAGE COMPOSE MODAL ═══════════════ -->
+  <div class="modal-overlay" id="msg-modal" style="display:none;">
+    <div class="modal-blade wide-blade">
+      <div class="modal-header">
+        <div class="modal-title">New Message</div>
+        <button class="modal-close" id="msg-close" type="button">✕</button>
+      </div>
+      <div class="modal-body" id="msg-body">
+        <div class="msg-compose">
+          <div class="msg-field">
+            <label>To:</label>
+            <select id="msg-to"></select>
+          </div>
+          <div class="msg-field">
+            <label>Message:</label>
+            <textarea id="msg-text" maxlength="250" placeholder="Type your message..."></textarea>
+          </div>
+          <div class="msg-actions">
+            <button class="blade-btn green" id="msg-send" type="button">Send</button>
+            <button class="blade-btn" id="msg-cancel" type="button">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ INBOX MODAL ═══════════════ -->
+  <div class="modal-overlay" id="inbox-modal" style="display:none;">
+    <div class="modal-blade wide-blade">
+      <div class="modal-header">
+        <div class="modal-title">Messages</div>
+        <button class="modal-close" id="inbox-close" type="button">✕</button>
+      </div>
+      <div class="modal-body" id="inbox-body"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ VIEW MESSAGE MODAL ═══════════════ -->
+  <div class="modal-overlay" id="view-msg-modal" style="display:none;">
+    <div class="modal-blade">
+      <div class="modal-header">
+        <div class="modal-title" id="view-msg-title">Message</div>
+        <button class="modal-close" id="view-msg-close" type="button">✕</button>
+      </div>
+      <div class="modal-body" id="view-msg-body"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ FRIENDS LIST MODAL ═══════════════ -->
+  <div class="modal-overlay" id="friends-modal" style="display:none;">
+    <div class="modal-blade wide-blade">
+      <div class="modal-header">
+        <div class="modal-title">Friends</div>
+        <button class="modal-close" id="friends-close" type="button">✕</button>
+      </div>
+      <div class="modal-body" id="friends-body"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ MAIN DASHBOARD ═══════════════ -->
+  <main class="dashboard" id="dashboard" aria-hidden="true">
+
+    <!-- Scanlines / film noise -->
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <!-- Background green glow orbs -->
+    <div class="bg-orbs" aria-hidden="true">
+      <div class="bg-orb orb-1"></div>
+      <div class="bg-orb orb-2"></div>
+      <div class="bg-orb orb-3"></div>
     </div>
 
-    <main class="dashboard is-starting" id="dashboard" aria-label="Xbox 360 Dashboard version 2.0.1888.0 Blades interface">
-      <div class="video-noise" aria-hidden="true"></div>
-      <div class="ambient-orbs" aria-hidden="true">
-        <span></span><span></span><span></span><span></span>
-      </div>
-
-      <section class="console-screen" aria-label="Launch dashboard blades">
-        <div class="top-status" aria-label="Dashboard status">
-          <div class="profile-pill"><span class="profile-light"></span>No profiles found</div>
-          <time id="clock" datetime=""></time>
+    <!-- ── TOP GAMER STATUS BAR ── -->
+    <div class="gamer-bar" id="gamer-bar">
+      <div class="gamer-profile" id="gamer-profile-btn">
+        <div class="gamer-pic-wrap" id="gamer-pic-wrap">
+          <div class="default-pic" id="default-pic">
+            <div class="default-pic-inner"></div>
+          </div>
+          <img class="gamer-pic" id="gamer-pic" src="" alt="" style="display:none;" />
         </div>
+        <div class="gamer-info">
+          <div class="gamertag" id="gamertag-display">Sign In</div>
+          <div class="gamer-stats" id="gamer-stats" style="display:none;">
+            <span class="stat gamerscore" id="gamerscore-display">⬡ 0</span>
+            <span class="stat zone" id="zone-display">Pro</span>
+          </div>
+        </div>
+      </div>
+      <div class="bar-center">
+        <div class="online-status" id="online-status"></div>
+      </div>
+      <div class="bar-right">
+        <div class="clock-wrap">
+          <time id="clock" datetime="">12:00 PM</time>
+        </div>
+        <div class="msg-badge-wrap" id="msg-badge-wrap" style="display:none;">
+          <button class="msg-badge-btn" id="msg-badge-btn" type="button">
+            <span class="msg-icon">✉</span>
+            <span class="msg-count" id="msg-count">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
-        <nav class="blade-strip" aria-label="Blade navigation">
-          <button class="blade-tab live" data-blade="0" type="button">
-            <span class="tab-inner">xbox live</span>
-          </button>
-          <button class="blade-tab games" data-blade="1" type="button">
-            <span class="tab-inner">games</span>
-          </button>
-          <button class="blade-tab media" data-blade="2" type="button">
-            <span class="tab-inner">media</span>
-          </button>
-          <button class="blade-tab system active" data-blade="3" type="button" aria-current="page">
-            <span class="tab-inner">system</span>
-          </button>
-        </nav>
+    <!-- ── BLADE TABS ── -->
+    <nav class="blade-tabs" id="blade-tabs" aria-label="Blade navigation">
+      <button class="btab btab-live"   data-blade="0" type="button" aria-current="false"><span>Xbox Live</span></button>
+      <button class="btab btab-games"  data-blade="1" type="button" aria-current="false"><span>Games</span></button>
+      <button class="btab btab-media"  data-blade="2" type="button" aria-current="false"><span>Media</span></button>
+      <button class="btab btab-system" data-blade="3" type="button" aria-current="false"><span>System</span></button>
+    </nav>
 
-        <div class="blades" id="blades">
-          <article class="blade live" data-title="Xbox Live" style="--offset: -3; --distance: 3;">
-            <div class="blade-handle"><span>xbox live</span></div>
-            <div class="blade-face">
-              <header class="blade-header">
-                <h1>Xbox Live</h1>
-                <p>Connect to Xbox Live to play with friends and download content.</p>
-              </header>
-              <div class="content-grid">
-                <div class="list-panel">
-                  <button class="menu-row selected" type="button"><span>Join Xbox Live</span></button>
-                  <button class="menu-row" type="button"><span>Recover Gamertag</span></button>
-                  <button class="menu-row" type="button"><span>Friends</span></button>
-                  <button class="menu-row" type="button"><span>Messages</span></button>
-                  <button class="menu-row" type="button"><span>Chat and IM</span></button>
-                </div>
-                <aside class="promo-panel">
-                  <div class="live-orb"><span></span></div>
-                  <h2>Xbox Live</h2>
-                  <p>Sign in with a gamertag to see friends, messages, and achievements.</p>
-                </aside>
+    <!-- ── BLADE CONTAINER ── -->
+    <div class="blade-scene" id="blade-scene">
+
+      <!-- ─── BLADE 0: XBOX LIVE ─── -->
+      <article class="blade blade-live" data-index="0" aria-label="Xbox Live blade">
+        <div class="blade-tab-strip"><span>Xbox Live</span></div>
+        <div class="blade-content">
+          <div class="blade-inner">
+            <header class="blade-head">
+              <h1>Xbox Live</h1>
+              <p id="live-subtitle">Connect and play with friends around the world.</p>
+            </header>
+            <div class="blade-grid">
+              <div class="menu-list" id="live-menu">
+                <!-- populated by JS based on auth state -->
               </div>
-            </div>
-          </article>
-
-          <article class="blade games" data-title="Games" style="--offset: -2; --distance: 2;">
-            <div class="blade-handle"><span>games</span></div>
-            <div class="blade-face">
-              <header class="blade-header">
-                <h1>Games</h1>
-                <p>Launch the disc in the tray, demos, arcade games, and achievements.</p>
-              </header>
-              <div class="content-grid">
-                <div class="list-panel">
-                  <button class="menu-row selected" type="button"><span>Open Tray</span></button>
-                  <button class="menu-row" type="button"><span>Xbox Live Arcade</span></button>
-                  <button class="menu-row" type="button"><span>Achievements</span></button>
-                  <button class="menu-row" type="button"><span>Game Saves</span></button>
-                  <button class="menu-row" type="button"><span>Demos</span></button>
-                </div>
-                <aside class="promo-panel">
-                  <div class="disc-icon"><span></span></div>
-                  <h2>No Disc</h2>
-                  <p>Insert an Xbox 360 game disc or browse saved games and demos.</p>
-                </aside>
-              </div>
-            </div>
-          </article>
-
-          <article class="blade media" data-title="Media" style="--offset: -1; --distance: 1;">
-            <div class="blade-handle"><span>media</span></div>
-            <div class="blade-face">
-              <header class="blade-header">
-                <h1>Media</h1>
-                <p>Play music, pictures, videos, and portable media from your console.</p>
-              </header>
-              <div class="content-grid">
-                <div class="list-panel">
-                  <button class="menu-row selected" type="button"><span>Music</span></button>
-                  <button class="menu-row" type="button"><span>Pictures</span></button>
-                  <button class="menu-row" type="button"><span>Videos</span></button>
-                  <button class="menu-row" type="button"><span>Media Center</span></button>
-                  <button class="menu-row" type="button"><span>Portable Device</span></button>
-                </div>
-                <aside class="promo-panel">
-                  <div class="media-meter"><i></i><i></i><i></i></div>
-                  <h2>Entertainment</h2>
-                  <p>Use the Media blade for playback from storage and network devices.</p>
-                </aside>
-              </div>
-            </div>
-          </article>
-
-          <article class="blade system active" data-title="System" style="--offset: 0; --distance: 0;">
-            <div class="blade-handle"><span>system</span></div>
-            <div class="blade-face">
-              <header class="blade-header language-heading">
-                <h1>Language</h1>
-              </header>
-              <div class="language-layout">
-                <div class="language-list" aria-label="Language options">
-                  <button class="menu-row selected" type="button"><span>English</span></button>
-                  <button class="menu-row" type="button"><span>Español</span></button>
-                  <button class="menu-row" type="button"><span>Français</span></button>
-                  <button class="menu-row" type="button"><span>Deutsch</span></button>
-                  <button class="menu-row" type="button"><span>Italiano</span></button>
-                  <button class="menu-row" type="button"><span>Português</span></button>
-                  <button class="menu-row" type="button"><span>日本語</span></button>
-                  <button class="menu-row" type="button"><span>한국어</span></button>
-                  <button class="menu-row" type="button"><span>中文(繁體)</span></button>
-                </div>
-                <aside class="welcome-panel">
-                  <div class="brand-lockup" aria-label="Xbox 360">
-                    <div class="sphere-logo"><span></span></div>
-                    <div class="wordmark">XBOX 360</div>
+              <aside class="blade-aside live-aside">
+                <div class="live-orb-wrap">
+                  <div class="live-orb">
+                    <div class="orb-sphere"></div>
+                    <div class="orb-rings">
+                      <div class="orb-ring r1"></div>
+                      <div class="orb-ring r2"></div>
+                    </div>
                   </div>
-                  <p class="welcome-copy">You are about to set up your Xbox 360 console.</p>
-                  <p class="welcome-copy lower">Choose your language to continue.</p>
-                  <p class="kernel-stamp">D:2.0.1888.0 - K:2.0.1888.0</p>
-                </aside>
-              </div>
+                </div>
+                <div class="aside-info" id="live-aside-info">
+                  <div class="aside-title">Xbox Live</div>
+                  <p>Play online with friends, download content, and track your achievements.</p>
+                </div>
+              </aside>
             </div>
-          </article>
+          </div>
         </div>
+      </article>
 
-        <footer class="control-deck" aria-label="Controller help">
-          <div class="button-cluster left-buttons"><span>◀</span><span>▶</span><em>blade</em></div>
-          <p><span id="active-description">System</span></p>
-          <div class="button-cluster select-buttons"><strong>A</strong><em>Select</em><span>B</span><em>Back</em></div>
-        </footer>
-      </section>
+      <!-- ─── BLADE 1: GAMES ─── -->
+      <article class="blade blade-games" data-index="1" aria-label="Games blade">
+        <div class="blade-tab-strip"><span>Games</span></div>
+        <div class="blade-content">
+          <div class="blade-inner">
+            <header class="blade-head">
+              <h1>Games</h1>
+              <p>Play disc games, Xbox Live Arcade titles, and manage saves.</p>
+            </header>
+            <div class="blade-grid">
+              <div class="menu-list">
+                <button class="mrow" type="button" data-action="disc"><span class="mrow-icon disc-icon-sm"></span><span>Play Disc</span></button>
+                <button class="mrow" type="button" data-action="arcade"><span class="mrow-icon arcade-icon"></span><span>Xbox Live Arcade</span></button>
+                <button class="mrow" type="button" data-action="achievements"><span class="mrow-icon achiev-icon"></span><span>Achievements</span></button>
+                <button class="mrow" type="button" data-action="saves"><span class="mrow-icon saves-icon"></span><span>Game Saves</span></button>
+                <button class="mrow" type="button" data-action="demos"><span class="mrow-icon demos-icon"></span><span>Demos and More</span></button>
+              </div>
+              <aside class="blade-aside">
+                <div class="disc-visual">
+                  <div class="disc-outer">
+                    <div class="disc-inner"></div>
+                    <div class="disc-hole"></div>
+                    <div class="disc-shine"></div>
+                  </div>
+                </div>
+                <div class="aside-title">No Disc</div>
+                <p>Insert an Xbox 360 game disc or choose an option from the list.</p>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </article>
 
-      <div class="archive-note" aria-label="Archive note">
-        <strong>Archive recreation</strong>
-        <span>Xbox 360 launch dashboard / blades era / version 2.0.1888.0</span>
+      <!-- ─── BLADE 2: MEDIA ─── -->
+      <article class="blade blade-media" data-index="2" aria-label="Media blade">
+        <div class="blade-tab-strip"><span>Media</span></div>
+        <div class="blade-content">
+          <div class="blade-inner">
+            <header class="blade-head">
+              <h1>Media</h1>
+              <p>Play music, pictures, and video from connected devices.</p>
+            </header>
+            <div class="blade-grid">
+              <div class="menu-list">
+                <button class="mrow" type="button" data-action="music"><span class="mrow-icon music-icon"></span><span>Music</span></button>
+                <button class="mrow" type="button" data-action="pictures"><span class="mrow-icon pic-icon"></span><span>Pictures</span></button>
+                <button class="mrow" type="button" data-action="video"><span class="mrow-icon video-icon"></span><span>Video</span></button>
+                <button class="mrow" type="button" data-action="mediacenter"><span class="mrow-icon mc-icon"></span><span>Media Center</span></button>
+                <button class="mrow" type="button" data-action="portable"><span class="mrow-icon port-icon"></span><span>Portable Device</span></button>
+              </div>
+              <aside class="blade-aside media-aside">
+                <div class="media-bars">
+                  <div class="mbar mb1"></div>
+                  <div class="mbar mb2"></div>
+                  <div class="mbar mb3"></div>
+                  <div class="mbar mb4"></div>
+                  <div class="mbar mb5"></div>
+                </div>
+                <div class="aside-title">No Media Found</div>
+                <p>Connect a portable device, USB drive, or media center to get started.</p>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ─── BLADE 3: SYSTEM ─── -->
+      <article class="blade blade-system" data-index="3" aria-label="System blade">
+        <div class="blade-tab-strip"><span>System</span></div>
+        <div class="blade-content">
+          <div class="blade-inner">
+            <header class="blade-head">
+              <h1>System</h1>
+              <p>Console settings, memory, and initial setup options.</p>
+            </header>
+            <div class="blade-grid">
+              <div class="menu-list">
+                <button class="mrow" type="button" data-action="console"><span class="mrow-icon console-icon"></span><span>Console Settings</span></button>
+                <button class="mrow" type="button" data-action="memory"><span class="mrow-icon mem-icon"></span><span>Memory</span></button>
+                <button class="mrow" type="button" data-action="network"><span class="mrow-icon net-icon"></span><span>Network Settings</span></button>
+                <button class="mrow" type="button" data-action="family"><span class="mrow-icon fam-icon"></span><span>Family Settings</span></button>
+                <button class="mrow" type="button" data-action="setup"><span class="mrow-icon setup-icon"></span><span>Initial Setup</span></button>
+              </div>
+              <aside class="blade-aside system-aside">
+                <div class="xbox360-badge">
+                  <div class="badge-sphere">
+                    <div class="badge-sphere-inner"></div>
+                    <div class="badge-x-lines">
+                      <div class="bxl bxl-1"></div>
+                      <div class="bxl bxl-2"></div>
+                    </div>
+                  </div>
+                  <div class="badge-wordmark">XBOX 360</div>
+                </div>
+                <p class="sys-version">Version: 2.0.1888.0</p>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /blade-scene -->
+
+    <!-- ── CONTROLLER HINT BAR ── -->
+    <div class="ctrl-bar" aria-label="Controller hints">
+      <div class="ctrl-group">
+        <div class="ctrl-btn arrow">◀</div>
+        <div class="ctrl-btn arrow">▶</div>
+        <span class="ctrl-label">Blade</span>
       </div>
-      <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    </main>
+      <div class="ctrl-center" id="ctrl-center">
+        <span id="blade-name-display">Xbox Live</span>
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-btn a-btn">A</div>
+        <span class="ctrl-label">Select</span>
+        <div class="ctrl-btn b-btn">B</div>
+        <span class="ctrl-label">Back</span>
+      </div>
+    </div>
 
-    <script src="script.js"></script>
-  </body>
+    <!-- ── TOAST NOTIFICATION ── -->
+    <div class="toast-wrap" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- ── ARCHIVE WATERMARK ── -->
+    <div class="archive-stamp">
+      <strong>Archive</strong>
+      <span>Xbox 360 Blades Dashboard · v2.0.1888.0 · 2005</span>
+    </div>
+
+  </main>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc,
+      collection,
+      addDoc,
+      query,
+      where,
+      orderBy,
+      onSnapshot,
+      serverTimestamp,
+      updateDoc,
+      getDocs,
+      limit
+    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAxS_t6k5GC4Nh4hf0o8gIDaGae-5vUdX8",
+      authDomain: "wolfbox-5688b.firebaseapp.com",
+      projectId: "wolfbox-5688b",
+      storageBucket: "wolfbox-5688b.firebasestorage.app",
+      messagingSenderId: "55841216378",
+      appId: "1:55841216378:web:002209b5c07055a73c28c3",
+      measurementId: "G-0P9Y586J3H"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // expose to window for script.js
+    window.xbAuth = auth;
+    window.xbDb = db;
+    window.xbFirebase = {
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged,
+      updateProfile,
+      doc,
+      setDoc,
+      getDoc,
+      collection,
+      addDoc,
+      query,
+      where,
+      orderBy,
+      onSnapshot,
+      serverTimestamp,
+      updateDoc,
+      getDocs,
+      limit
+    };
+
+    // Signal that Firebase is ready
+    window.dispatchEvent(new Event("firebase-ready"));
+  </script>
+
+  <script src="script.js"></script>
+</body>
 </html>

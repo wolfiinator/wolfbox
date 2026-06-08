@@ -19,6 +19,7 @@ function setBlade(index) {
   tabs.forEach((tab, tabIndex) => {
     const isActive = tabIndex === activeBlade;
     tab.classList.toggle("active", isActive);
+
     if (isActive) {
       tab.setAttribute("aria-current", "page");
     } else {
@@ -30,6 +31,7 @@ function setBlade(index) {
     const offset = bladeIndex - activeBlade;
     blade.style.setProperty("--offset", offset);
     blade.style.setProperty("--distance", Math.abs(offset));
+    blade.style.setProperty("--z", blades.length - Math.abs(offset));
     blade.classList.toggle("active", bladeIndex === activeBlade);
   });
 
@@ -39,7 +41,7 @@ function setBlade(index) {
 function updateClock() {
   const now = new Date();
   clock.textContent = now.toLocaleTimeString([], {
-    hour: "2-digit",
+    hour: "numeric",
     minute: "2-digit",
   });
   clock.dateTime = now.toISOString();
@@ -84,23 +86,51 @@ function prepareStartupIntro() {
   }
 }
 
+function rowsForActiveBlade() {
+  return [...blades[activeBlade].querySelectorAll(".menu-row")];
+}
+
+function moveSelection(direction) {
+  const rows = rowsForActiveBlade();
+  if (!rows.length) {
+    return;
+  }
+
+  const selectedIndex = Math.max(0, rows.findIndex((row) => row.classList.contains("selected")));
+  const nextIndex = (selectedIndex + direction + rows.length) % rows.length;
+  rows.forEach((row, index) => row.classList.toggle("selected", index === nextIndex));
+  rows[nextIndex].focus({ preventScroll: true });
+}
+
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => setBlade(Number(tab.dataset.blade)));
 });
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowRight") {
+    event.preventDefault();
     setBlade(activeBlade + 1);
   }
 
   if (event.key === "ArrowLeft") {
+    event.preventDefault();
     setBlade(activeBlade - 1);
+  }
+
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    moveSelection(1);
+  }
+
+  if (event.key === "ArrowUp") {
+    event.preventDefault();
+    moveSelection(-1);
   }
 
   if (event.key === "Enter" || event.key.toLowerCase() === "a") {
     const selected = blades[activeBlade].querySelector(".menu-row.selected");
     if (selected) {
-      showToast(`${selected.textContent} selected`);
+      showToast(`${selected.textContent.trim()} selected`);
     }
   }
 
@@ -113,7 +143,7 @@ document.querySelectorAll(".menu-row").forEach((row) => {
   row.addEventListener("click", () => {
     row.closest(".blade").querySelectorAll(".menu-row").forEach((item) => item.classList.remove("selected"));
     row.classList.add("selected");
-    showToast(`${row.textContent} selected`);
+    showToast(`${row.textContent.trim()} selected`);
   });
 });
 

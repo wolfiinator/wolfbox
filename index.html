@@ -3,143 +3,169 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Xbox 360 Blades Startup</title>
+    <title>Xbox 360 Dashboard 2.0.1888.0 Archive</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="boot-sequence" id="boot-sequence" aria-label="Xbox 360 startup intro">
-      <video
-        id="boot-video"
-        class="boot-video"
-        autoplay
-        muted
-        playsinline
-        preload="auto"
-        poster="assets/xbox-360-intro-poster.jpg"
-      >
-        <source src="assets/xbox-360-intro.webm" type="video/webm" />
+      <video id="boot-video" class="boot-video" autoplay muted playsinline preload="auto">
         <source src="assets/xbox-360-intro.mp4" type="video/mp4" />
       </video>
       <div class="boot-fallback" aria-hidden="true">
+        <div class="boot-greenwash"></div>
         <div class="boot-ring"></div>
-        <div class="boot-sphere">X</div>
+        <div class="boot-sphere"><span></span></div>
         <p>XBOX 360</p>
       </div>
-      <button class="skip-boot" id="skip-boot" type="button">Skip intro</button>
+      <button class="skip-boot" id="skip-boot" type="button">Skip Intro</button>
     </div>
 
-    <main class="dashboard-shell is-starting" id="dashboard" aria-label="Xbox 360 blades dashboard">
-      <aside class="chrome-rail left-rail" aria-hidden="true">
-        <div class="rail-tab"><span>xbox 360</span></div>
-      </aside>
-      <aside class="chrome-rail right-rail" aria-hidden="true"></aside>
+    <main class="dashboard is-starting" id="dashboard" aria-label="Xbox 360 Dashboard version 2.0.1888.0 Blades interface">
+      <div class="video-noise" aria-hidden="true"></div>
+      <div class="ambient-orbs" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </div>
 
-      <section class="blade-stack" aria-label="Dashboard blades">
-        <nav class="blade-tabs" aria-label="Blade navigation">
-          <button class="blade-tab" data-blade="0" type="button">xbox live</button>
-          <button class="blade-tab" data-blade="1" type="button">games</button>
-          <button class="blade-tab" data-blade="2" type="button">media</button>
-          <button class="blade-tab active" data-blade="3" type="button" aria-current="page">system</button>
+      <section class="console-screen" aria-label="Launch dashboard blades">
+        <div class="top-status" aria-label="Dashboard status">
+          <div class="profile-pill"><span class="profile-light"></span>No profiles found</div>
+          <time id="clock" datetime=""></time>
+        </div>
+
+        <nav class="blade-strip" aria-label="Blade navigation">
+          <button class="blade-tab live" data-blade="0" type="button">
+            <span class="tab-inner">xbox live</span>
+          </button>
+          <button class="blade-tab games" data-blade="1" type="button">
+            <span class="tab-inner">games</span>
+          </button>
+          <button class="blade-tab media" data-blade="2" type="button">
+            <span class="tab-inner">media</span>
+          </button>
+          <button class="blade-tab system active" data-blade="3" type="button" aria-current="page">
+            <span class="tab-inner">system</span>
+          </button>
         </nav>
 
         <div class="blades" id="blades">
-          <article class="blade live" data-title="Xbox Live">
-            <header class="blade-header">
-              <h1>Xbox Live</h1>
-            </header>
-            <div class="menu-card split-layout">
-              <div class="list-panel">
-                <button class="menu-row selected" type="button">Sign in to Xbox Live</button>
-                <button class="menu-row" type="button">Friends</button>
-                <button class="menu-row" type="button">Messages</button>
-                <button class="menu-row" type="button">Marketplace</button>
-                <button class="menu-row" type="button">Account Management</button>
-              </div>
-              <div class="info-panel">
-                <div class="x-orb">X</div>
-                <h2>Connect and play</h2>
-                <p>Join friends, compare achievements, and download demos from Xbox Live.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="blade games" data-title="Games">
-            <header class="blade-header">
-              <h1>Games</h1>
-            </header>
-            <div class="menu-card split-layout">
-              <div class="list-panel">
-                <button class="menu-row selected" type="button">Play Game</button>
-                <button class="menu-row" type="button">Xbox Live Arcade</button>
-                <button class="menu-row" type="button">Achievements</button>
-                <button class="menu-row" type="button">Recent Games</button>
-                <button class="menu-row" type="button">Demos</button>
-              </div>
-              <div class="info-panel">
-                <div class="disc-icon"></div>
-                <h2>Open Tray</h2>
-                <p>Select a game, browse arcade titles, or check your gamerscore.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="blade media" data-title="Media">
-            <header class="blade-header">
-              <h1>Media</h1>
-            </header>
-            <div class="menu-card split-layout">
-              <div class="list-panel">
-                <button class="menu-row selected" type="button">Music</button>
-                <button class="menu-row" type="button">Pictures</button>
-                <button class="menu-row" type="button">Videos</button>
-                <button class="menu-row" type="button">Media Center</button>
-                <button class="menu-row" type="button">Portable Device</button>
-              </div>
-              <div class="info-panel">
-                <div class="media-bars"><span></span><span></span><span></span></div>
-                <h2>Your entertainment</h2>
-                <p>Play playlists, photo slideshows, videos, and shared media.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="blade system active" data-title="System">
-            <header class="blade-header">
-              <h1>Language</h1>
-            </header>
-            <div class="menu-card welcome-card">
-              <div class="language-list" aria-label="Language options">
-                <button class="menu-row selected" type="button">English</button>
-                <button class="menu-row" type="button">Español</button>
-                <button class="menu-row" type="button">Français</button>
-                <button class="menu-row" type="button">Deutsch</button>
-                <button class="menu-row" type="button">Italiano</button>
-                <button class="menu-row" type="button">Português</button>
-                <button class="menu-row" type="button">日本語</button>
-                <button class="menu-row" type="button">한국어</button>
-                <button class="menu-row" type="button">中文(繁體)</button>
-              </div>
-              <div class="welcome-panel">
-                <div class="brand-lockup" aria-label="Xbox 360">
-                  <div class="sphere-logo">X</div>
-                  <div class="wordmark">XBOX 360</div>
+          <article class="blade live" data-title="Xbox Live" style="--offset: -3; --distance: 3;">
+            <div class="blade-handle"><span>xbox live</span></div>
+            <div class="blade-face">
+              <header class="blade-header">
+                <h1>Xbox Live</h1>
+                <p>Connect to Xbox Live to play with friends and download content.</p>
+              </header>
+              <div class="content-grid">
+                <div class="list-panel">
+                  <button class="menu-row selected" type="button"><span>Join Xbox Live</span></button>
+                  <button class="menu-row" type="button"><span>Recover Gamertag</span></button>
+                  <button class="menu-row" type="button"><span>Friends</span></button>
+                  <button class="menu-row" type="button"><span>Messages</span></button>
+                  <button class="menu-row" type="button"><span>Chat and IM</span></button>
                 </div>
-                <p class="welcome-copy">You are about to enter a new world<br />of amazing games and digital<br />entertainment.</p>
-                <p class="welcome-copy bottom">Welcome to Xbox 360.</p>
+                <aside class="promo-panel">
+                  <div class="live-orb"><span></span></div>
+                  <h2>Xbox Live</h2>
+                  <p>Sign in with a gamertag to see friends, messages, and achievements.</p>
+                </aside>
+              </div>
+            </div>
+          </article>
+
+          <article class="blade games" data-title="Games" style="--offset: -2; --distance: 2;">
+            <div class="blade-handle"><span>games</span></div>
+            <div class="blade-face">
+              <header class="blade-header">
+                <h1>Games</h1>
+                <p>Launch the disc in the tray, demos, arcade games, and achievements.</p>
+              </header>
+              <div class="content-grid">
+                <div class="list-panel">
+                  <button class="menu-row selected" type="button"><span>Open Tray</span></button>
+                  <button class="menu-row" type="button"><span>Xbox Live Arcade</span></button>
+                  <button class="menu-row" type="button"><span>Achievements</span></button>
+                  <button class="menu-row" type="button"><span>Game Saves</span></button>
+                  <button class="menu-row" type="button"><span>Demos</span></button>
+                </div>
+                <aside class="promo-panel">
+                  <div class="disc-icon"><span></span></div>
+                  <h2>No Disc</h2>
+                  <p>Insert an Xbox 360 game disc or browse saved games and demos.</p>
+                </aside>
+              </div>
+            </div>
+          </article>
+
+          <article class="blade media" data-title="Media" style="--offset: -1; --distance: 1;">
+            <div class="blade-handle"><span>media</span></div>
+            <div class="blade-face">
+              <header class="blade-header">
+                <h1>Media</h1>
+                <p>Play music, pictures, videos, and portable media from your console.</p>
+              </header>
+              <div class="content-grid">
+                <div class="list-panel">
+                  <button class="menu-row selected" type="button"><span>Music</span></button>
+                  <button class="menu-row" type="button"><span>Pictures</span></button>
+                  <button class="menu-row" type="button"><span>Videos</span></button>
+                  <button class="menu-row" type="button"><span>Media Center</span></button>
+                  <button class="menu-row" type="button"><span>Portable Device</span></button>
+                </div>
+                <aside class="promo-panel">
+                  <div class="media-meter"><i></i><i></i><i></i></div>
+                  <h2>Entertainment</h2>
+                  <p>Use the Media blade for playback from storage and network devices.</p>
+                </aside>
+              </div>
+            </div>
+          </article>
+
+          <article class="blade system active" data-title="System" style="--offset: 0; --distance: 0;">
+            <div class="blade-handle"><span>system</span></div>
+            <div class="blade-face">
+              <header class="blade-header language-heading">
+                <h1>Language</h1>
+              </header>
+              <div class="language-layout">
+                <div class="language-list" aria-label="Language options">
+                  <button class="menu-row selected" type="button"><span>English</span></button>
+                  <button class="menu-row" type="button"><span>Español</span></button>
+                  <button class="menu-row" type="button"><span>Français</span></button>
+                  <button class="menu-row" type="button"><span>Deutsch</span></button>
+                  <button class="menu-row" type="button"><span>Italiano</span></button>
+                  <button class="menu-row" type="button"><span>Português</span></button>
+                  <button class="menu-row" type="button"><span>日本語</span></button>
+                  <button class="menu-row" type="button"><span>한국어</span></button>
+                  <button class="menu-row" type="button"><span>中文(繁體)</span></button>
+                </div>
+                <aside class="welcome-panel">
+                  <div class="brand-lockup" aria-label="Xbox 360">
+                    <div class="sphere-logo"><span></span></div>
+                    <div class="wordmark">XBOX 360</div>
+                  </div>
+                  <p class="welcome-copy">You are about to set up your Xbox 360 console.</p>
+                  <p class="welcome-copy lower">Choose your language to continue.</p>
+                  <p class="kernel-stamp">D:2.0.1888.0 - K:2.0.1888.0</p>
+                </aside>
               </div>
             </div>
           </article>
         </div>
 
-        <footer class="control-deck" aria-label="Controls">
-          <div class="button-cluster left-buttons" aria-hidden="true"><span>Y</span><span>X</span></div>
-          <div class="active-caption"><span id="active-description">System</span><time id="clock" datetime=""></time></div>
-          <div class="button-cluster select-buttons" aria-hidden="true"><span>B</span><strong>A</strong><em>Select</em></div>
+        <footer class="control-deck" aria-label="Controller help">
+          <div class="button-cluster left-buttons"><span>◀</span><span>▶</span><em>blade</em></div>
+          <p><span id="active-description">System</span></p>
+          <div class="button-cluster select-buttons"><strong>A</strong><em>Select</em><span>B</span><em>Back</em></div>
         </footer>
       </section>
+
+      <div class="archive-note" aria-label="Archive note">
+        <strong>Archive recreation</strong>
+        <span>Xbox 360 launch dashboard / blades era / version 2.0.1888.0</span>
+      </div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </main>
 
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="script.js"></script>
   </body>
 </html>

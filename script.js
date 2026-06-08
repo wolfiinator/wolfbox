@@ -3,8 +3,15 @@ const blades = [...document.querySelectorAll(".blade")];
 const description = document.querySelector("#active-description");
 const clock = document.querySelector("#clock");
 const toast = document.querySelector("#toast");
-let activeBlade = 0;
+const bootSequence = document.querySelector("#boot-sequence");
+const bootVideo = document.querySelector("#boot-video");
+const dashboard = document.querySelector("#dashboard");
+const skipBoot = document.querySelector("#skip-boot");
+
+let activeBlade = blades.findIndex((blade) => blade.classList.contains("active"));
 let toastTimer;
+let bootTimer;
+let hasEnteredDashboard = false;
 
 function setBlade(index) {
   activeBlade = (index + blades.length) % blades.length;
@@ -42,7 +49,39 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add("show");
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+}
+
+function enterDashboard() {
+  if (hasEnteredDashboard) {
+    return;
+  }
+
+  hasEnteredDashboard = true;
+  clearTimeout(bootTimer);
+  bootSequence.classList.add("hidden");
+  dashboard.classList.remove("is-starting");
+  setTimeout(() => bootSequence.remove(), 1100);
+}
+
+function prepareStartupIntro() {
+  bootTimer = setTimeout(enterDashboard, 6200);
+
+  bootVideo.addEventListener("ended", enterDashboard);
+  bootVideo.addEventListener("error", () => {
+    bootVideo.classList.add("is-unavailable");
+    clearTimeout(bootTimer);
+    bootTimer = setTimeout(enterDashboard, 4200);
+  });
+
+  const playAttempt = bootVideo.play();
+  if (playAttempt) {
+    playAttempt.catch(() => {
+      bootVideo.classList.add("is-unavailable");
+      clearTimeout(bootTimer);
+      bootTimer = setTimeout(enterDashboard, 4200);
+    });
+  }
 }
 
 tabs.forEach((tab) => {
@@ -57,16 +96,30 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") {
     setBlade(activeBlade - 1);
   }
+
+  if (event.key === "Enter" || event.key.toLowerCase() === "a") {
+    const selected = blades[activeBlade].querySelector(".menu-row.selected");
+    if (selected) {
+      showToast(`${selected.textContent} selected`);
+    }
+  }
+
+  if (event.key === "Escape") {
+    enterDashboard();
+  }
 });
 
-document.querySelectorAll(".tile").forEach((tile) => {
-  tile.addEventListener("click", () => {
-    document.querySelectorAll(".tile").forEach((item) => item.classList.remove("selected"));
-    tile.classList.add("selected");
-    showToast(`${tile.querySelector("strong").textContent} selected`);
+document.querySelectorAll(".menu-row").forEach((row) => {
+  row.addEventListener("click", () => {
+    row.closest(".blade").querySelectorAll(".menu-row").forEach((item) => item.classList.remove("selected"));
+    row.classList.add("selected");
+    showToast(`${row.textContent} selected`);
   });
 });
 
-setBlade(0);
+skipBoot.addEventListener("click", enterDashboard);
+
+setBlade(activeBlade >= 0 ? activeBlade : 3);
 updateClock();
+prepareStartupIntro();
 setInterval(updateClock, 30_000);
